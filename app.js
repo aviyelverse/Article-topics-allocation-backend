@@ -14,7 +14,7 @@ import creatorRoutes from "./routes/creator.js";
 const app = express();
 
 // middlewares (routes)
-app.use(creatorRoutes);
+app.use("/api",creatorRoutes);
 
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
