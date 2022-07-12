@@ -1,22 +1,31 @@
 import express from "express";
 import articleData from "./articleData.js";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 // dotenv config
 dotenv.config();
 
+// importing routes
+import creatorRoutes from "./routes/creator.js";
+
+
 // express app initialized
 const app = express();
 
-// routes
-app.get("/", (req, res) => {
-    res.send("Hello fromt the root!");
-}
-);
+// middlewares (routes)
+app.use("/api",creatorRoutes);
 
-app.get("/api/articles", (req, res) => {
-    res.send(articleData.articles);
-    }
+// db connection
+mongoose.connect(process.env.MONGODB_URI, { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+ }).then(() => {
+    console.log("Connected to MongoDB");
+}
+).catch(err => {
+    console.log("Error connecting to MongoDB: ", err.message);
+}
 );
 
 // port config
