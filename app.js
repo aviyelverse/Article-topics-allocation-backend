@@ -6,19 +6,16 @@ import mongoose from "mongoose";
 // dotenv config
 dotenv.config();
 
+// importing routes
+import creatorRoutes from "./routes/creator.js";
+
+
 // express app initialized
 const app = express();
 
-// routes
-app.get("/", (req, res) => {
-    res.send("Hello fromt the root!");
-}
-);
+// middlewares (routes)
+app.use(creatorRoutes);
 
-app.get("/api/articles", (req, res) => {
-    res.send(articleData.articles);
-    }
-);
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
     useNewUrlParser: true,
