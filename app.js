@@ -1,7 +1,15 @@
 import express from "express";
 import articleData from "./articleData.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
+
+app.get("/", (req, res) => {
+    res.send("Hello fromt he root!");
+}
+);
 
 app.get("/api/articles", (req, res) => {
     res.send(articleData.articles);
