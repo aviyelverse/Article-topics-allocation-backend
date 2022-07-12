@@ -2,6 +2,8 @@ import express from "express";
 import articleData from "./articleData.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 // dotenv config
 dotenv.config();
@@ -12,6 +14,10 @@ import creatorRoutes from "./routes/creator.js";
 
 // express app initialized
 const app = express();
+
+// middlewares (morgan)
+app.use(morgan("dev"));
+app.use(cookieParser());
 
 // middlewares (routes)
 app.use("/api",creatorRoutes);
