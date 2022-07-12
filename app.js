@@ -1,6 +1,7 @@
 import express from "express";
 import articleData from "./articleData.js";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 // dotenv config
 dotenv.config();
@@ -17,6 +18,18 @@ app.get("/", (req, res) => {
 app.get("/api/articles", (req, res) => {
     res.send(articleData.articles);
     }
+);
+// db connection
+mongoose.connect(process.env.MONGODB_URI, { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+ }).then(() => {
+    console.log("Connected to MongoDB");
+}
+).catch(err => {
+    console.log("Error connecting to MongoDB: ", err.message);
+}
 );
 
 // port config
