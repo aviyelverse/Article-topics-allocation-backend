@@ -39,3 +39,16 @@ const creatorSchema = new mongoose.Schema({
         default: []
     }
 }, { timestamps: true });
+
+// virtual field
+creatorSchema.virtual("password")
+    .set(function (password) {
+        this._password = password;
+        this.salt = uuidv4();
+        this.hashed_password = this.encryptPassword(password);
+    }
+    )
+    .get(function () {
+        return this._password;
+    }
+);
