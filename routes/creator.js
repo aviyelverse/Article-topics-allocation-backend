@@ -1,10 +1,8 @@
 import express from "express";
-
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("Hello from the root!");
-}   
-);
+import {controllerTest} from "../controllers/creator.js";
+
+router.get("/", controllerTest);
 
 export default router;
