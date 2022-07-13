@@ -1,4 +1,4 @@
-import Creator from '../models/creator';
+import Creator from '../models/creator.js';
 
 const signup = (req, res) => {
    const Creator = new Creator({    // create a new Creator object
@@ -24,4 +24,4 @@ const signup = (req, res) => {
         );
 }   
 
-export {controllerTest};
+export {signup};
