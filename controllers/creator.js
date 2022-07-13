@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
-
+import dotenv from "dotenv";
 import Creator from '../models/creator.js';
 import {dbErrorHandle} from "../helpers/databaseErrorHandle.js";
 
+// dotenv config
+dotenv.config();
 
 const signup = (req, res) => {
     console.log("req.body",req.body);
@@ -50,4 +52,9 @@ const logout = (req, res) => {
 }
 
 
-export { signup, login, logout };
+const requireLogin = expressJwt({
+    secret: process.env.JWT_SECRET_token,
+    userProperty: "auth"
+});
+
+export { signup, login, logout, requireLogin };
