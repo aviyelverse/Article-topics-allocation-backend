@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 // dotenv config
 dotenv.config();
@@ -16,6 +17,8 @@ const app = express();
 
 // middlewares (morgan)
 app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // middlewares (routes)
