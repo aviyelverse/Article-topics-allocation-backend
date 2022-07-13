@@ -10,7 +10,7 @@ import expressValidator from "express-validator";
 dotenv.config();
 
 // importing routes
-import creatorRoutes from "./routes/creator.js";
+import authenticationRoutes from "./routes/authentication.js";
 
 
 // express app initialized
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 // middlewares (routes)
-app.use("/api",creatorRoutes);
+app.use("/api",authenticationRoutes);
 
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
