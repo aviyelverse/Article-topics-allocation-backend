@@ -44,5 +44,10 @@ const login = (req, res) => {
     });
 };
 
+const logout = (req, res) => {
+    res.clearCookie("t");
+    res.json({ message: "You are logged out" });
+}
 
-export { signup, login };
+
+export { signup, login, logout };
