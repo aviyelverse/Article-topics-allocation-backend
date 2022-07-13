@@ -1,5 +1,9 @@
+import jwt from "jsonwebtoken";
+import expressJwt from "express-jwt";
+
 import Creator from '../models/creator.js';
 import {dbErrorHandle} from "../helpers/databaseErrorHandle.js";
+
 
 const signup = (req, res) => {
     console.log("req.body",req.body);
@@ -19,4 +23,26 @@ const signup = (req, res) => {
    );
 }   
 
-export {signup};
+const login = (req, res) => {
+    // find the creator based on email
+    const { email, password } = req.body;
+    Creator.findOne({ email }, (err, creator) => {
+        if (err || !creator) {
+            return res.status(400).json({
+                error: "Creator with this email does not exist. Please signup."
+            });
+        }
+        if (!creator.authenticate(password)) {
+            return res.status(401).json({
+                error: "Email and password dosent match"
+            });
+        }
+        const token = jwt.sign({ _id: creator._id }, process.env.JWT_SECRET_token);
+        res.cookie("t", token, { expire: new Date() + 9999 });
+        const { _id, name, email, role } = creator;
+        return res.json({ token, creator: { _id, email, name, role } });
+    });
+};
+
+
+export { signup, login };
