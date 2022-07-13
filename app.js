@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import expressValidator from "express-validator";
 
 // dotenv config
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressValidator());
 
 // middlewares (routes)
 app.use("/api",creatorRoutes);
