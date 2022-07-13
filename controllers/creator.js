@@ -20,4 +20,3 @@ const signup = (req, res) => {
 }   
 
 export {signup};
-
