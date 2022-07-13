@@ -66,4 +66,5 @@ creatorSchema.methods = {
     }
 }
 
+// export the model
 export default mongoose.model("Creator", creatorSchema);
