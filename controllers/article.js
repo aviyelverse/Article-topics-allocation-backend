@@ -190,5 +190,48 @@ const allArticlesProjects = (req, res) => {
     );
 }
 
+// this code will
+// list article by search
+// show projects in radio box checboxes article availability 
+// api request to show the article to the creators based on what they want
 
-export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects};
+const articleSearch = (req, res) => {
+    let order = req.body.order ? req.body.order : "desc";
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = parseInt(req.body.skip);
+    let findArgs = {};
+
+    // console.log(order, sortBy, limit, skip, req.body.filters);
+    // console.log("findArgs", findArgs);
+
+    for (let key in req.body.filters) {
+        if (req.body.filters[key].length > 0) {
+            if (key === "price") {
+                // gte -  greater than price [0-10]
+                // lte - less than
+                findArgs[key] = {
+                    $gte: req.body.filters[key][0],
+                    $lte: req.body.filters[key][1]
+                };
+            } else {
+                findArgs[key] = req.body.filters[key];
+            }
+        }
+    }
+
+    Article.find(findArgs).select("-photo").populate("project").sort([[sortBy, order]]).skip(skip).limit(limit).exec((err, articles) => {
+        if (err) {
+            return res.status(400).json({
+                error: dbErrorHandle(err)
+            });
+        }
+        res.json({
+            size: articles.length,
+            articles
+        });
+    }
+    );
+}
+
+export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch};
