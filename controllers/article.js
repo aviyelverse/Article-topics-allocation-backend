@@ -202,14 +202,10 @@ const articleSearch = (req, res) => {
     let skip = parseInt(req.body.skip);
     let findArgs = {};
 
-    // console.log(order, sortBy, limit, skip, req.body.filters);
-    // console.log("findArgs", findArgs);
 
     for (let key in req.body.filters) {
         if (req.body.filters[key].length > 0) {
-            if (key === "price") {
-                // gte -  greater than price [0-10]
-                // lte - less than
+            if (key === "topicPopularity") {
                 findArgs[key] = {
                     $gte: req.body.filters[key][0],
                     $lte: req.body.filters[key][1]
@@ -234,4 +230,13 @@ const articleSearch = (req, res) => {
     );
 }
 
-export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch};
+const articleImages = (req, res, next) => {
+    if (req.article.photo.data) {
+        res.set("Content-Type", req.article.photo.contentType);
+        return res.send(req.article.photo.data);
+    }
+    next();
+}
+
+
+export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch, articleImages};
