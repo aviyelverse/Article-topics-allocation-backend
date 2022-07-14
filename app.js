@@ -12,6 +12,9 @@ dotenv.config();
 // importing routes
 import authenticationRoutes from "./routes/authentication.js";
 import creatorRoutes from "./routes/creator.js";
+import projectRoutes from "./routes/project.js";
+import articleRoutes from "./routes/article.js";
+
 
 
 // express app initialized
@@ -27,6 +30,7 @@ app.use(expressValidator());
 // middlewares (routes)
 app.use("/api",authenticationRoutes);
 app.use("/api", creatorRoutes);
+app.use("/api", projectRoutes);
 
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
