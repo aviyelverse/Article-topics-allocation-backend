@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import expressValidator from "express-validator";
+import cors from "cors";
 
 // dotenv config
 dotenv.config();
@@ -26,12 +27,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 
 // middlewares (routes)
 app.use("/api",authenticationRoutes);
 app.use("/api", creatorRoutes);
 app.use("/api", projectRoutes);
 app.use("/api", articleRoutes);
+
 
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
