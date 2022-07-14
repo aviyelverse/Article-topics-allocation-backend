@@ -26,7 +26,7 @@ const articleSchema = new mongoose.Schema(
             data: Buffer,
             contentType: String
         },
-        assign: {
+        assigned: {
             required: false,
             type: Boolean
         }
