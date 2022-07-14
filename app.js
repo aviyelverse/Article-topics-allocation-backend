@@ -13,6 +13,8 @@ dotenv.config();
 import authenticationRoutes from "./routes/authentication.js";
 import creatorRoutes from "./routes/creator.js";
 import projectRoutes from "./routes/project.js";
+import articleRoutes from "./routes/article.js";
+
 
 
 // express app initialized
