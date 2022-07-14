@@ -230,4 +230,13 @@ const articleSearch = (req, res) => {
     );
 }
 
+const articleImages = (req, res, next) => {
+    if (req.article.photo.data) {
+        res.set("Content-Type", req.article.photo.contentType);
+        return res.send(req.article.photo.data);
+    }
+    next();
+}
+
+
 export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch};
