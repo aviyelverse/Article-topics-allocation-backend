@@ -1,6 +1,19 @@
 import Project from "../models/project.js";
 import {dbErrorHandle} from "../helpers/databaseErrorHandle.js";
 
+
+const projectById = (req, res, next, id) => {
+    Project.findById(id).exec((err, project) => {
+        if (err || !project) {
+            return res.status(400).json({
+                error: "project not found"
+            });
+        }
+        req.project = project;
+        next();
+    });
+}
+
 const createProject = (req, res) => {
     const project = new Project(req.body);
     project.save((err, data) => {
@@ -13,4 +26,8 @@ const createProject = (req, res) => {
     });
 };
 
-export {createProject};
+const readProject = (req, res) => {
+    return res.json(req.project);
+}
+
+export {createProject, projectById, readProject};
