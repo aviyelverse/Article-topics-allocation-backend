@@ -77,4 +77,17 @@ const createArticle = (req, res) => {
 };
 
 
-export {createArticle, articleById, readArticle};
+const deleteArticle = (req, res) => {
+    let article = req.article;
+    article.remove((err, article) => {
+        if (err) {
+            return res.status(400).json({
+                error: dbErrorHandle(err)
+            });
+        }
+        res.json({message: "Article deleted successfully" });
+    });
+}
+
+
+export {createArticle, articleById, readArticle, deleteArticle};
