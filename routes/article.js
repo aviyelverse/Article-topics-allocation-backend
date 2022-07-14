@@ -1,13 +1,14 @@
 import express from "express";
 const router = express.Router();
 
-import {createArticle} from "../controllers/article.js";
+import {createArticle, articleById, readArticle} from "../controllers/article.js";
 import {requireLogin, isAuthenticated, isMaintainer} from "../controllers/authentication.js";
 import {creatorById} from "../controllers/creator.js";
 
-
+router.get("/article/:articletId", readArticle);
 router.post("/article/create-article/:creatorId", requireLogin, isAuthenticated, isMaintainer, createArticle);
 
 router.param("creatorId", creatorById);
+router.param("articleId", articleById);
 
 export default router;

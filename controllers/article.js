@@ -4,6 +4,24 @@ import fs from "fs";
 import Article from "../models/article.js";
 import {dbErrorHandle} from "../helpers/databaseErrorHandle.js";
 
+
+const articleById = (req, res, next, id) => {
+    Article.findById(id).exec((err, article) => {
+        if (err || !article) {
+            return res.status(400).json({
+                error: "article not found"
+            });
+        }
+        req.article = article;
+        next();
+    });
+}
+
+const readArticle = (req, res) => {
+    req.article.photo = undefined;
+    return res.json(req.article);
+}
+
 const createArticle = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
@@ -59,4 +77,4 @@ const createArticle = (req, res) => {
 };
 
 
-export {createArticle};
+export {createArticle, articleById, readArticle};
