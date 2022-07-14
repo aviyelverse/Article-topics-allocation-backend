@@ -22,6 +22,10 @@ const articleSchema = new mongoose.Schema(
         quantity: {
             type: Number
         },
+        topicPopularity: {
+            type: Number,
+            default: 0
+        },
         photo: {
             data: Buffer,
             contentType: String

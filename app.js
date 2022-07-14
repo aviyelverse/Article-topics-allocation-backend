@@ -31,6 +31,7 @@ app.use(expressValidator());
 app.use("/api",authenticationRoutes);
 app.use("/api", creatorRoutes);
 app.use("/api", projectRoutes);
+app.use("/api", articleRoutes);
 
 // db connection
 mongoose.connect(process.env.MONGODB_URI, { 
