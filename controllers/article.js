@@ -144,5 +144,25 @@ const updateArticle = (req, res) => {
     });
 }
 
+// Hot topics and newly added
 
-export {createArticle, articleById, readArticle, deleteArticle, updateArticle};
+// topicPopularity
+
+const allArticles = (req, res) => {
+    let articleOrder = req.query.order ? req.query.order : "asc";
+    let articleSortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let articleLimit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+    Article.find().select("-photo").populate("project").sort([[articleSortBy, articleOrder]]).limit(articleLimit).exec((err, articles) => {
+        if (err) {
+            return res.status(400).json({
+                error: dbErrorHandle(err)
+            });
+        }
+        res.send(articles);
+    }
+    );
+}
+
+
+export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles};
