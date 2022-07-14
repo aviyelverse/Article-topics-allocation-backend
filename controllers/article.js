@@ -13,9 +13,36 @@ const createArticle = (req, res) => {
                 error: "Article project Images could not be uploaded"
             });
         }
+
+        // check all fields 
+        const {
+            name,
+            description,
+            project,
+            quantity,
+            assigned
+        } = fields;
+
+        if (
+            !name ||
+            !description ||
+            !project ||
+            !quantity ||
+            !assigned
+        ) {
+            return res.status(400).json({
+                error: "Fields required"
+            });
+        }
+
         let article = new Article(fields);
 
         if (files.photo) {
+            if (files.photo.size > 7000000) {
+                return res.status(400).json({
+                    error: "Image too large"
+                });
+            }
             article.photo.data = fs.readFileSync(files.photo.path);
             article.photo.contentType = files.photo.type;
         }
