@@ -57,4 +57,25 @@ const requireLogin = expressJwt({
     userProperty: "auth"
 });
 
-export { signup, login, logout, requireLogin };
+
+
+const isAuthenticated = (req, res, next) => {
+    let creator = req.profile && req.auth && req.profile._id == req.auth._id;
+    if (!creator) {
+        return res.status(403).json({
+            error: "Access denied"
+        });
+    }
+    next();
+};
+
+const isMaintainer = (req, res, next) => {
+    if (req.profile.role === 0) {
+        return res.status(403).json({
+            error: "Maintainer only!"
+        });
+    }
+    next();
+};
+
+export { signup, login, logout, requireLogin, isAuthenticated, isMaintainer };
