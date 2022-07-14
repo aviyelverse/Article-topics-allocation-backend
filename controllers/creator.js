@@ -12,4 +12,24 @@ const creatorById = (req, res, next, id) => {
     });
 };
 
-export {creatorById};
+const readCreatorProfile = (req, res) => {
+    req.profile.hashed_password = undefined;
+    req.profile.salt = undefined;
+    return res.json(req.profile);
+}
+
+const updateCreatorProfile = (req, res) => {
+    Creator.findOneAndUpdate({ _id: req.profile._id }, { $set: req.body }, { new: true }, (err, creator) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Creator Not authorized"
+            });
+        }
+        creator.hashed_password = undefined;
+        creator.salt = undefined;
+        res.json(creator);
+    });
+}
+
+
+export {creatorById, readCreatorProfile, updateCreatorProfile};
