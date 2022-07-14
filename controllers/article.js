@@ -239,4 +239,4 @@ const articleImages = (req, res, next) => {
 }
 
 
-export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch};
+export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects, articleSearch, articleImages};
