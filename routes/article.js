@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles} from "../controllers/article.js";
+import {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects} from "../controllers/article.js";
 import {requireLogin, isAuthenticated, isMaintainer} from "../controllers/authentication.js";
 import {creatorById} from "../controllers/creator.js";
 
@@ -11,6 +11,9 @@ router.delete("/article/:articleId/:creatorId", requireLogin, isAuthenticated, i
 router.put("/article/:articleId/:creatorId", requireLogin, isAuthenticated, isMaintainer, updateArticle);
 
 router.get("/articles", allArticles);
+// relateArticles
+router.get("/articles/related/:articleId", relatedArticles);
+router.get("/articles/projects", allArticlesProjects);
 
 router.param("creatorId", creatorById);
 router.param("articleId", articleById);

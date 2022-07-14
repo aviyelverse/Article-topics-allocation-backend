@@ -4,7 +4,6 @@ import fs from "fs";
 import Article from "../models/article.js";
 import {dbErrorHandle} from "../helpers/databaseErrorHandle.js";
 
-
 const articleById = (req, res, next, id) => {
     Article.findById(id).exec((err, article) => {
         if (err || !article) {
@@ -164,5 +163,32 @@ const allArticles = (req, res) => {
     );
 }
 
+const relatedArticles = (req, res) => {
+    let articleLimit = req.query.limit ? parseInt(req.query.limit) : 6;
+    Article.find({ _id: { $ne: req.article }, category: req.article.project })
+        .limit(articleLimit)
+        .populate("project", "_id name")
+        .exec((err, articles) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Article not found"
+                });
+            }
+            res.json(articles);
+        });
+}
 
-export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles};
+const allArticlesProjects = (req, res) => {
+    Article.distinct("project", (err, projects) => {
+        if (err) {
+            return res.status(400).json({
+                error: dbErrorHandle(err)
+            });
+        }
+        res.json(projects);
+    }
+    );
+}
+
+
+export {createArticle, articleById, readArticle, deleteArticle, updateArticle, allArticles, relatedArticles, allArticlesProjects};
